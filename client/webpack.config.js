@@ -19,7 +19,7 @@ module.exports = () => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './src/index.html', // path to your index.html file
+        template: './index.html', // path to your index.html file
       }),
       new WebpackPwaManifest({
         name: 'Just Another Text Editor',
@@ -30,7 +30,7 @@ module.exports = () => {
         start_url: '/',
       }),
       new InjectManifest({
-        swSrc: 'src-sw.js',
+        swSrc: './src-sw.js',
         swDest: 'service-worker.js',
       }),
     ],

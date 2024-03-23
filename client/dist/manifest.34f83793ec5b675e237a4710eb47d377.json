@@ -1,0 +1,10 @@
+{
+  "name": "Just Another Text Editor",
+  "short_name": "Text Editor",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": "/",
+  "description": "An application that allows you to save snippets of code in a simple text editor.",
+  "background_color": "#01579b",
+  "theme_color": "#ffffff"
+}
