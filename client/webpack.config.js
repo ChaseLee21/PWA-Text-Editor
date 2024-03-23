@@ -17,6 +17,7 @@ module.exports = (env, argv) => {
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
     },
     watchOptions: {
       ignored: /src-sw\.js$/, // exclude service worker source file from being watched
@@ -32,6 +33,15 @@ module.exports = (env, argv) => {
         background_color: '#01579b',
         theme_color: '#ffffff',
         start_url: '/',
+        icons: [
+          {
+            src: path.resolve(__dirname, 'src/images/logo.png'), // ensure the path is correct
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join('assets', 'icons'),
+          },
+        ],
+        filename: 'manifest.json', // specify the filename
+        inject: true, // ensure the manifest is injected into the html
       }),
       isDevMode
         ? new GenerateSW({
@@ -50,6 +60,16 @@ module.exports = (env, argv) => {
         {
           test: /\.css$/,
           use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+            },
+          },
         },
       ],
     },
