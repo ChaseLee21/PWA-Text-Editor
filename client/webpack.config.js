@@ -1,12 +1,13 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
-const { InjectManifest } = require('workbox-webpack-plugin');
+const { InjectManifest, GenerateSW } = require('workbox-webpack-plugin');
 
 // TODO: Add and configure workbox plugins for a service worker and manifest file.
 // TODO: Add CSS loaders and babel to webpack.
 
-module.exports = () => {
+module.exports = (env, argv) => {
+  const isDevMode = argv.mode === 'development';
   return {
     mode: 'development',
     entry: {
@@ -16,6 +17,9 @@ module.exports = () => {
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
+    },
+    watchOptions: {
+      ignored: /src-sw\.js$/, // exclude service worker source file from being watched
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -29,10 +33,16 @@ module.exports = () => {
         theme_color: '#ffffff',
         start_url: '/',
       }),
-      new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'service-worker.js',
-      }),
+      isDevMode
+        ? new GenerateSW({
+          swSrc: './src-sw.js',
+          swDest: 'service-worker.js',
+          })
+        : new InjectManifest({
+          swSrc: './src-sw.js',
+          swDest: 'service-worker.js',
+        }),
+      
     ],
 
     module: {
