@@ -18,7 +18,21 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      
+      new HtmlWebpackPlugin({
+        template: './src/index.html', // path to your index.html file
+      }),
+      new WebpackPwaManifest({
+        name: 'Just Another Text Editor',
+        short_name: 'Text Editor',
+        description: 'An application that allows you to save snippets of code in a simple text editor.',
+        background_color: '#01579b',
+        theme_color: '#ffffff',
+        start_url: '/',
+      }),
+      new InjectManifest({
+        swSrc: 'src-sw.js',
+        swDest: 'service-worker.js',
+      }),
     ],
 
     module: {
