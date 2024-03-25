@@ -19,6 +19,14 @@ module.exports = (env, argv) => {
       path: path.resolve(__dirname, 'dist'),
       publicPath: '/',
     },
+    devServer: {
+      static: {
+        directory: path.join(__dirname, 'dist'),
+      },
+      compress: true,
+      port: 9000,
+      hot: true,
+    },
     watchOptions: {
       ignored: /src-sw\.js$/, // exclude service worker source file from being watched
     },
@@ -44,9 +52,9 @@ module.exports = (env, argv) => {
         inject: true, // ensure the manifest is injected into the html
       }),
       new InjectManifest({
-          swSrc: './src-sw.js',
-          swDest: 'service-worker.js',
-        }),
+        swSrc: './src-sw.js',
+        swDest: 'service-worker.js',
+      }),
       
     ],
 
