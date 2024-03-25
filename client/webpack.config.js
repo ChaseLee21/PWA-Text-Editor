@@ -43,12 +43,7 @@ module.exports = (env, argv) => {
         filename: 'manifest.json', // specify the filename
         inject: true, // ensure the manifest is injected into the html
       }),
-      isDevMode
-        ? new GenerateSW({
-          swSrc: './src-sw.js',
-          swDest: 'service-worker.js',
-          })
-        : new InjectManifest({
+      new InjectManifest({
           swSrc: './src-sw.js',
           swDest: 'service-worker.js',
         }),
