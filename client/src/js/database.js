@@ -14,24 +14,29 @@ const initdb = async () =>
 
 // TODO: Add logic to a method that accepts some content and adds it to the database
 export const putDb = async (content) => {
-  console.log(content);
-  const jateDB = await openDB('jate', 1);
-  const tx = jateDB.transaction('jate', 'readwrite');
-  const store = tx.objectStore('jate');
-  const request = store.add({ content });
-  const result = await request;
-  console.log('Data added to jate:', result);
+  try {
+    const jateDB = await openDB('jate', 1);
+    const tx = jateDB.transaction('jate', 'readwrite');
+    const store = tx.objectStore('jate');
+    const request = store.put({ content });
+    const result = await request;
+  } catch (error) {
+    console.error('Error replacing data in jate:', error);
+  }
 };
 
 // TODO: Add logic for a method that gets all the content from the database
 export const getDb = async () => {
-  const jateDB = await openDB('jate', 1);
-  const tx = jateDB.transaction('jate', 'readonly');
-  const store = tx.objectStore('jate');
-  const request = store.getAll();
-  const result = await request;
-  console.log('Data retrieved from jate:', result);
-  return result;
+  try {
+    const jateDB = await openDB('jate', 1);
+    const tx = jateDB.transaction('jate', 'readonly');
+    const store = tx.objectStore('jate');
+    const request = store.getAll();
+    const result = await request;
+    return result;
+  } catch (error) {
+    console.error('Error adding data to jate:', error);
+  }
 };
 
 initdb();
