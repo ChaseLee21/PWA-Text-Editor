@@ -7,7 +7,7 @@ const initdb = async () =>
         console.log('jate database already exists');
         return;
       }
-      db.createObjectStore('jate');
+      db.createObjectStore('jate', { keyPath: 'id' });
       console.log('jate database created');
     },
   });
@@ -21,7 +21,7 @@ const initdb = async () =>
       const request = store.put({ 
         id: 1, 
         content: content 
-      }, 1);
+      });
       const result = await request;
       jateDB.close();
     } catch (error) {
