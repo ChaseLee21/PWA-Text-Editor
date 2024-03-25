@@ -28,14 +28,14 @@ export const putDb = async (content) => {
 // TODO: Add logic for a method that gets all the content from the database
 export const getDb = async () => {
   try {
-    const jateDB = await openDB('jate', 1);
+    const jateDB = await openDB('jate', 1.1);
     const tx = jateDB.transaction('jate', 'readonly');
     const store = tx.objectStore('jate');
     const request = store.getAll();
     const result = await request;
     return result;
   } catch (error) {
-    console.error('Error adding data to jate:', error);
+    console.error('Error retrieving data to jate:', error);
   }
 };
 
