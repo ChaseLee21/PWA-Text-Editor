@@ -50,6 +50,7 @@ module.exports = (env, argv) => {
         ],
         filename: 'manifest.json', // specify the filename
         inject: true, // ensure the manifest is injected into the html
+        fingerprints: false, // remove fingerprints from the manifest
       }),
       new InjectManifest({
         swSrc: './src-sw.js',
@@ -63,6 +64,18 @@ module.exports = (env, argv) => {
         {
           test: /\.css$/,
           use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.(png|jpe?g|gif|ico)$/i,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]', // This line is changed
+                outputPath: 'assets/icons/',
+              },
+            },
+          ],
         },
         {
           test: /\.m?js$/,
