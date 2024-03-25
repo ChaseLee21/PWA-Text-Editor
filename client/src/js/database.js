@@ -7,36 +7,40 @@ const initdb = async () =>
         console.log('jate database already exists');
         return;
       }
-      db.createObjectStore('jate', { keyPath: 'id', autoIncrement: true });
+      db.createObjectStore('jate');
       console.log('jate database created');
     },
   });
 
-// TODO: Add logic to a method that accepts some content and adds it to the database
-export const putDb = async (content) => {
-  try {
-    const jateDB = await openDB('jate', 1);
-    const tx = jateDB.transaction('jate', 'readwrite');
-    const store = tx.objectStore('jate');
-    const request = store.put({ content });
-    const result = await request;
-  } catch (error) {
-    console.error('Error replacing data in jate:', error);
-  }
-};
-
-// TODO: Add logic for a method that gets all the content from the database
-export const getDb = async () => {
-  try {
-    const jateDB = await openDB('jate', 1.1);
-    const tx = jateDB.transaction('jate', 'readonly');
-    const store = tx.objectStore('jate');
-    const request = store.getAll();
-    const result = await request;
-    return result;
-  } catch (error) {
-    console.error('Error retrieving data to jate:', error);
-  }
-};
+  export const putDb = async (content) => {
+    try {
+      console.log(content, 'content to be saved');
+      const jateDB = await openDB('jate', 1);
+      const tx = jateDB.transaction('jate', 'readwrite');
+      const store = tx.objectStore('jate');
+      const request = store.put({ 
+        id: 1, 
+        content: content 
+      }, 1);
+      const result = await request;
+      jateDB.close();
+    } catch (error) {
+      console.error('Error replacing data in jate:', error);
+    }
+  };
+  
+  export const getDb = async () => {
+    try {
+      const jateDB = await openDB('jate', 1);
+      const tx = jateDB.transaction('jate', 'readonly');
+      const store = tx.objectStore('jate');
+      const request = store.get(1);
+      const result = await request;
+      jateDB.close();
+      return result.content;
+    } catch (error) {
+      console.error('Error getting data from jate:', error);
+    }
+  };
 
 initdb();
